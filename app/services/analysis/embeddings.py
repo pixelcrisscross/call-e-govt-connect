@@ -1,24 +1,22 @@
 import json
-import google.generativeai as genai
-from app.config import settings
 from app.database import SessionLocal
 from app.models import CallRecord, AnalysisResult
+from sentence_transformers import SentenceTransformer
 
-genai.configure(api_key=settings.GEMINI_API_KEY)
+# Load a small, fast, free model – no API key needed
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def get_embedding(text: str) -> list:
-    # Use Gemini's embedding model
-    result = genai.embed_content(
-        model=settings.GEMINI_EMBEDDING_MODEL,
-        content=text,
-        task_type="retrieval_document"
-    )
-    return result["embedding"]
+    """Generate embedding using local SentenceTransformer."""
+    return model.encode(text).tolist()
 
 def update_embeddings_for_all():
     db = SessionLocal()
     try:
         records = db.query(CallRecord).all()
+        if not records:
+            print("No call records to embed.")
+            return
         for rec in records:
             structured = rec.structured_result if isinstance(rec.structured_result, dict) else {}
             text = f"{rec.transcript or ''} {structured.get('issue_type', '')}"
@@ -30,8 +28,9 @@ def update_embeddings_for_all():
             else:
                 analysis.embedding = json.dumps(emb)
             db.commit()
-    except Exception:
+        print(f"✅ Embeddings generated for {len(records)} records using local model.")
+    except Exception as e:
         db.rollback()
-        raise
+        print(f"❌ Error: {e}")
     finally:
         db.close()

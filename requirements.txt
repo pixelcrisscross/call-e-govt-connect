@@ -12,3 +12,4 @@ pyarrow>=14.0.1
 streamlit>=1.38.0                  # supports newer packaging
 requests>=2.31.0
 pydantic>=2.8.0
+sentence-transformers>=2.2.0

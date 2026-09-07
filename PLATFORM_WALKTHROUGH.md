@@ -1,4 +1,4 @@
-Graduation the celebrate market certificate by post postmaster cotron# Call-E Municipal Intelligence Platform
+# Call-E Municipal Intelligence Platform
 
 This guide explains how to configure, run, call, analyze, and troubleshoot the platform.
 
@@ -19,7 +19,7 @@ Install:
 
 - Python 3.10 or newer
 - A Call-E account and API key
-- A Gemini API key for summaries, sentiment, topics, embeddings, and insights
+- A Gemini API key for summaries, sentiment, topics, and insights
 - `ngrok` or another public HTTPS tunnel for Call-E callbacks and MCP access
 - The Call-E Python SDK that provides `from calle import CalleClient`
 
@@ -60,9 +60,9 @@ CALLE_API_KEY=your_calle_api_key
 CALLE_PHONE_NUMBER=+1234567890
 GEMINI_API_KEY=your_gemini_api_key
 GEMINI_MODEL=gemini-2.0-flash
-GEMINI_EMBEDDING_MODEL=models/embedding-001
 MCP_SERVER_URL=https://your-public-mcp-host.example/sse
 WEBHOOK_URL=https://your-public-api-host.example/webhook/call-e
+CITIZEN_PHONE=+1234567890
 ```
 
 For local-only testing, `MCP_SERVER_URL=http://localhost:8001/sse` is sufficient. A real Call-E agent needs a public HTTPS MCP URL and a public HTTPS webhook URL.
@@ -219,7 +219,7 @@ python scripts/run_analysis.py
 
 The batch pipeline performs these steps:
 
-1. Generate or update Gemini embeddings for every call.
+1. Generate or update local SentenceTransformer embeddings for every call.
 2. Cluster available embeddings with KMeans.
 3. Generate one actionable insight per cluster.
 
