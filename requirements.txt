@@ -1,0 +1,15 @@
+fastapi>=0.115.0,<1.0.0
+uvicorn[standard]>=0.27.0
+sqlalchemy>=2.0.28
+python-dotenv>=1.0.0
+fastmcp-slim[server]>=4.0.0        # replaces fastmcp
+openai==0.28.0                     # still needed for embeddings
+google-generativeai>=0.3.2
+scikit-learn>=1.4.0
+numpy>=1.26.0
+pandas>=2.2.0
+pyarrow>=14.0.1
+streamlit>=1.38.0                  # supports newer packaging
+requests>=2.31.0
+pydantic>=2.8.0
+sentence-transformers>=2.2.0
