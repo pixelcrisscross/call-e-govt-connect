@@ -1,0 +1,5 @@
+# ignores the venv folder
+venv/
+
+# ignore the .env file
+.env
